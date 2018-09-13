@@ -1,0 +1,107 @@
+<!--
+
+To edit/view the SQL database
+
+1. XAMPP
+2. http://localhost:8080/phpmyadmin/tbl_sql.php?db=test&table=ajaxdata
+3. http://localhost:8080/index.html
+
+-->
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>AJAX JQuery Course</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="button" class="btn btn-primary">Click me</div>
+    <div id="output">Some Content </div>
+    <input type="text" id='myInput' name="myInput">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            // Update to SQL database, make sure its running
+            $('#button').click(function() {
+                var formData = $('#myInput').val();
+                $.ajax({
+                        url: "myphp.php",
+                        data: {
+                            firstName: formData,
+                            age: 50
+                        },
+                        type: 'POST'
+                    })
+                    .success(function(responseText, statusText, xhr) {
+                        $('#output').html(responseText);
+                        //console.log(xhr);
+                    })
+                    .fail(function(responseText, statusText, xhr) {
+                        $('#output').html(xhr + ", status: " + responseText.status);
+                        console.log(xhr);
+                    });
+            });
+
+
+
+            // Simple POST reqest via AJAX
+            //            $("#button").click(function() {
+            //                // $("#output").html('Button Working')
+            //                //$('#output').load('content.html');
+            //                
+            //                var formData = $("#myInput").val();
+            //
+            //                $.post("myphp.php", {
+            //                    firstName: formData,
+            //                    age: "50"
+            //                }, function(responseText, statusText, xhr) {
+            //                    console.log('xhr', xhr);
+            //                    $('#output').html(responseText);
+            //                });
+            //            });
+
+
+
+            //                            // Get data as JSON
+            //                            var result = '';
+            //                            $.getJSON('https://api.myjson.com/bins/15anb', function(responseText, statusText, xhr) {
+            //                                if (statusText == 'error') {
+            //                                    $('#output').html('NOT FOUND');
+            //                                    $('html').html(responseText);
+            //                                }
+            //                                
+            //                                $.each(responseText, function(a, Obj){
+            //                                    result += a + "." + Obj.firstName +' '+ Obj.lastName + '<br>';
+            //                                });
+            //                                
+            //                                //console.log('statusText', statusText);
+            //                                //console.log('responseText', responseText);
+            //                                //console.log('xhr',xhr);
+            //                                //$('#output').html(JSON.stringify(responseText));
+            //                                $('#output').html(result);
+            //                            });
+
+            // Get raw data using PHP
+            //                $('#output').load('myphp.php', function(responseText, statusText, xhr) {
+            //                    if (statusText == 'error') {
+            //                        $('#output').html('NOT FOUND');
+            //                        $('html').html(responseText);
+            //                    }
+            //                    //console.log('statusText', statusText);
+            //                    //console.log('responseText', responseText);
+            //                    //console.log('xhr',xhr);
+            //                    $('#output').html(responseText);
+            //                });
+
+
+
+        });
+
+    </script>
+</body>
+
+</html>
